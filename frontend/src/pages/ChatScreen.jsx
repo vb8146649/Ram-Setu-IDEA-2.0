@@ -192,10 +192,10 @@ const ChatScreen = () => {
     }
   }, []);
 
-  const addMessage = (role, text) => {
+  const addMessage = (role, text, id = Date.now()) => {
     setMessages((prev) => [
       ...prev,
-      { id: Date.now(), role, text, timestamp: new Date() },
+      { id, role, text, timestamp: new Date() },
     ]);
   };
 
@@ -219,12 +219,17 @@ const ChatScreen = () => {
           if (voiceMode) speak(data.message, data.language);
 
           if (data.escalate) {
-            // Create escalation ticket then navigate
+            // Create escalation ticket with conversation history then navigate
+            const updatedTurns = [
+              ...messages.map(m => ({ role: m.role, text: m.text })),
+              { role: "user", text: msgText },
+              { role: "bot", text: data.message }
+            ];
             createEscalation({
               intent: data.intent,
               language: data.language,
               summary: data.summary,
-              turns: [],
+              turns: updatedTurns,
             }).catch(() => {});
 
             setTimeout(
@@ -275,7 +280,8 @@ const ChatScreen = () => {
           stream.getTracks().forEach(track => track.stop());
           
           setIsTyping(true);
-          addMessage("user", "(Voice Message)");
+          const tempId = Date.now();
+          addMessage("user", "🎤 (Transcribing...)", tempId);
           
           try {
             const formData = new FormData();
@@ -289,9 +295,11 @@ const ChatScreen = () => {
             if (!sessionId && data.sessionId) setSessionId(data.sessionId);
             
             setIsTyping(false);
-            // Replace the generic "(Voice Message)" with the actual transcribed text
+            const finalUserText = data.userText || "Audio Message";
+            
+            // Replace the transcribing placeholder with the actual transcribed text using the unique ID
             setMessages(prev => prev.map(m => 
-              m.text === "(Voice Message)" && m.role === "user" ? { ...m, text: data.userText || "Audio Message" } : m
+              m.id === tempId ? { ...m, text: finalUserText } : m
             ));
             addMessage("bot", data.message);
             
@@ -301,11 +309,27 @@ const ChatScreen = () => {
             }
             
             if (data.escalate) {
-              createEscalation({ intent: data.intent, language: data.language, summary: data.summary, turns: [] }).catch(()=>{});
+              const updatedTurns = [
+                ...messages.map(m => ({ 
+                  role: m.role, 
+                  text: m.id === tempId ? finalUserText : m.text 
+                })),
+                { role: "user", text: finalUserText },
+                { role: "bot", text: data.message }
+              ];
+              createEscalation({ 
+                intent: data.intent, 
+                language: data.language, 
+                summary: data.summary, 
+                turns: updatedTurns 
+              }).catch(()=>{});
               setTimeout(() => navigate("/escalation", { state: { ticket: { summary: data.summary, intent: data.intent } } }), 2000);
             }
           } catch (err) {
             setIsTyping(false);
+            setMessages(prev => prev.map(m => 
+              m.id === tempId ? { ...m, text: "Audio Message" } : m
+            ));
             addMessage("bot", "Sorry, an error occurred with voice processing.");
           }
         };
@@ -405,7 +429,7 @@ const ChatScreen = () => {
                   intent: "escalate",
                   language: language,
                   summary: "User requested manual transfer to human agent from Kiosk chat screen.",
-                  turns: [],
+                  turns: messages.map(m => ({ role: m.role, text: m.text })),
                 });
               } catch (_) {}
               navigate("/escalation", {

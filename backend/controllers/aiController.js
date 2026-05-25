@@ -58,16 +58,18 @@ const voiceChat = async (req, res) => {
       response_format: "json",
     });
     const userText = transcription.text;
+    console.log(`[STT Transcription] User Spoke: "${userText}"`);
     
     // Clean up uploaded file
     fs.unlinkSync(req.file.path);
 
     // 2. LLM Processing (Groq via aiService)
-    const response = await buildResponse(userText, customerId, sid, null);
+    const response = await buildResponse(userText, customerId, sid, language);
+    console.log(`[LLM Response] Assistant Replied: "${response.message}" (Language: ${response.language})`);
     
     // 3. TTS (Google TTS)
     // Fallback language code logic for Google TTS
-    const langCodeMap = { hi: 'hi', bn: 'bn', ta: 'ta', te: 'te', kn: 'kn', ml: 'ml', mr: 'mr', gu: 'gu', pa: 'pa', ur: 'ur', en: 'en' };
+    const langCodeMap = { hi: 'hi', bn: 'bn', ta: 'ta', te: 'te', kn: 'kn', ml: 'ml', mr: 'mr', gu: 'gu', pa: 'pa', ur: 'ur', or: 'or', en: 'en' };
     const ttsLang = langCodeMap[response.language] || 'en';
     
     let audioBase64 = null;

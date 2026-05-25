@@ -36,12 +36,20 @@ const MARATHI_KEYWORDS = ["mala", "mazha", "tumcha", "ahe", "nahi", "khate"];
 const detectLanguage = (text = "", hint = null) => {
   // Prefer explicit language hint from client (selected language)
   if (hint && hint !== "en") return hint;
+  
   // Script-based detection
+  // Check if it is Marathi Devanagari (contains unique 'ळ' character or Marathi Devanagari keywords)
+  if (/[\u0933]/.test(text) || ["मला", "माझा", "तुमचा", "आहे", "खाते", "नवीन", "शिल्लक", "माझे"].some(w => text.includes(w))) {
+    return "mr";
+  }
+  
   for (const [lang, pattern] of Object.entries(SCRIPT_PATTERNS)) {
     if (pattern.test(text)) return lang;
   }
+  
   // Keyword fallback
   const lower = text.toLowerCase();
+  if (MARATHI_KEYWORDS.some((kw) => lower.includes(kw))) return "mr";
   if (HINDI_KEYWORDS.some((kw) => lower.includes(kw))) return "hi";
   return "en";
 };
