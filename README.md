@@ -4,7 +4,7 @@
 **Addressing Problem Statement:** **PS7: AI-Enabled Self-Service** (Building smart kiosks and voice bots for independent customer transactions at branches and contact centers)  
 **Team Name:** Web Wizards  
 **Institute:** Delhi Technological University (DTU)  
-**Email:** contact@webwizards.dtu.edu  
+**Email:** contact.webwizards.hackthon@gmail.com
 
 ---
 
@@ -20,7 +20,7 @@ RamSetu is deployed across three major banking touchpoints:
 ---
 
 ## Live Demo & Media Links
-*   🔗 **Web Kiosk Application:** Run locally using the instructions below.
+*   🔗 **Web Kiosk Application:** [https://ram-setu-idea-2-0.vercel.app/](https://ram-setu-idea-2-0.vercel.app/)
 *   🎥 **Demonstration Video:** [https://youtube.com/watch?v=demo_placeholder](https://youtube.com/watch?v=demo_placeholder)
 *   📂 **Source Repository:** [https://github.com/web-wizards/ramsetu](https://github.com/web-wizards/ramsetu)
 
