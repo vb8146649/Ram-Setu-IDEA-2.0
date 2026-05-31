@@ -21,8 +21,8 @@ RamSetu is deployed across three major banking touchpoints:
 
 ## Live Demo & Media Links
 *   🔗 **Web Kiosk Application:** [https://ram-setu-idea-2-0.vercel.app/](https://ram-setu-idea-2-0.vercel.app/)
-*   🎥 **Demonstration Video:** [https://youtube.com/watch?v=demo_placeholder](https://youtu.be/lNPtEpJD0cM?feature=shared)
-*   📂 **Source Repository:** [https://github.com/web-wizards/ramsetu](https://github.com/vb8146649/Ram-Setu-IDEA-2.0)
+*   🎥 **Demonstration Video:** [demo](https://youtu.be/lNPtEpJD0cM?feature=shared)
+*   📂 **Source Repository:** [https://github.com/vb8146649/Ram-Setu-IDEA-2.0](https://github.com/vb8146649/Ram-Setu-IDEA-2.0)
 
 ---
 
