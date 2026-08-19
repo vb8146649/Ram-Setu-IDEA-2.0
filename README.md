@@ -36,34 +36,6 @@ RamSetu is deployed across three major banking touchpoints:
 
 ---
 
-## Planned AI Architecture Enhancements
-
-### Retrieval-Augmented Generation (RAG) — Planned
-RamSetu is currently designed around a direct LLM orchestration flow using Groq. The next production-grade enhancement is a dedicated **RAG pipeline** that grounds responses in verified banking knowledge sources such as:
-*   Branch operating procedures and product policies
-*   Card/loan FAQs and grievance-handling playbooks
-*   Regional-language customer support documentation
-*   Internal escalation and resolution knowledge base
-
-The planned architecture will include:
-1. A document ingestion and chunking layer for banking knowledge artifacts
-2. A vector database for semantic retrieval of branch-specific context
-3. A retrieval-and-rerank step that selects the most relevant policy snippets
-4. A grounded generation step that combines retrieved context with the conversational agent prompt
-
-This design is intended to improve factual consistency, reduce hallucination risk, and support safer real-world branch automation scenarios.
-
-### Fine-Tuning — Planned
-A planned fine-tuning roadmap will focus on adapting the current generative stack to the specific domain needs of banking self-service and multilingual branch assistance. The future training direction includes:
-*   Domain-specific instruction tuning for secure banking conversations and escalation handling
-*   Multilingual intent adaptation for Hindi, English, and Hinglish customer requests
-*   Response-style tuning for agent assist, kiosk assistance, and IVR workflows
-*   Small-model optimization using PEFT/LoRA-style techniques for efficient deployment
-
-This future fine-tuning layer is aimed at improving response relevance, regional language robustness, and trustworthiness in customer-facing banking interactions.
-
----
-
 ## How to Run Locally
 
 ### Prerequisites
@@ -145,7 +117,6 @@ This future fine-tuning layer is aimed at improving response relevance, regional
 *   **Browser Dependency:** Client-side speech capabilities rely on the browser's `webkitSpeechRecognition` engine, which works best on Google Chrome.
 *   **Core Banking Core Integration:** CBS transactions (Finacle/BaNCS) read from local JS models rather than real production software APIs.
 *   **Offline Operation:** The platform requires an internet connection to contact Groq API. Integrating localized on-premise Llama-3-8B engines is planned for future offline rural deployments.
-*   **RAG & Fine-Tuning Roadmap:** A production-ready RAG layer and domain-specific model fine-tuning are planned next to improve context grounding, multilingual policy retrieval, and response reliability.
 
 ---
 
